@@ -25,15 +25,15 @@ soup = BeautifulSoup(r)
 
 divs = soup.find_all('div')
 
-print divs[11].text
+#print divs[11].text
 
 total_items = re.search('of \d+', divs[11].text)
 
-print total_items.group(0)
+#print total_items.group(0)
 
 total_items = re.search('\d+', total_items.group(0))
 
-print total_items.group(0)
+#print total_items.group(0)
 
 url_string += '&rowCount=' + total_items.group(0) + '&StartRow=1'
 
@@ -54,6 +54,8 @@ rows = rows[1:len(rows) - 2]
 
 json_dict = {}
 
+url_prepend = 'https://www.govdeals.com/'
+
 #loop rows and iterate tds	
 for i in range(len(rows)):
 	#print str(i)
@@ -71,7 +73,10 @@ for i in range(len(rows)):
 
 	price_dict = {'price': price.group(0), 'bids': bids}
 
-	date = re.search('\d/\d/\d{4}', tds[6].text)
+	#following line was breaking script due to a two digit day in the date
+	#date = re.search('\d/\d/\d{4}', tds[6].text)
+	#adjusted to account for months and days with up to two digits
+	date = re.search('\d+/\d+/\d{4}', tds[6].text)
 
 	time = re.search('\d{2}:\d{2} \w{2} \w{2}', tds[6].text)
 
@@ -81,7 +86,14 @@ for i in range(len(rows)):
 	else:
 		date_dict = {'end_date': date.group(0), 'end_time': time.group(0)}
 
-	item_desc = tds[1].text.strip()[:tds[1].text.strip().index('\n')]
+	#old line temporarily off for now
+	#item_desc = tds[1].text.strip()[:tds[1].text.strip().index('\n')]
+	
+	#modified line to capture link
+	temp_item_desc = '' 
+	temp_item_desc += str(tds[1].find('a'))
+	insertion_point = temp_item_desc.index('"') + 1
+	item_desc =  temp_item_desc[:insertion_point] + url_prepend + temp_item_desc[insertion_point:]
 
 	#item_dict = {'item_desc': item_desc}
 

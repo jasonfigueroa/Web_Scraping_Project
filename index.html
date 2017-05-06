@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Your page title here :)</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <!-- JavaScript
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<script type="text/javascript"src="./js/hello.js"></script>
+
+  <!-- JSON
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<script type="text/javascript" src="./data/data.json"></script>
+
+  <!-- jQuery
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body onload="greet()">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="twelve columns">
+		<table>
+			<tr>
+				<th>Desc</th>
+				<th>End</th> 
+				<th>Price</th>
+			</tr>
+		</table>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+	$.ajax({
+		//url: "data/users.json",
+		url: "data/data.json",
+		dataType: "json",
+		//append = "row_1"
+		success: function(response) {
+			console.log(response);
+			for (var k in response) {
+				var obj = response[k];
+				//console.log(response[k]);
+				$('table').append('<tr></tr>');
+				var currentRow = $('table tr:last')
+				$(currentRow).append('<td></td>');
+				$(currentRow).append('<td></td>');
+				$(currentRow).append('<td></td>');
+				$("table tr:last td:first").append(obj.item_desc);
+				$("table tr:last td:eq(1)").append(obj.date_info.end_date + "<br>" + obj.date_info.end_time);
+				$("table tr:last td:last").append("$" + obj.price_info.price + "<br>Bids: " + obj.price_info.bids);
+				
+				//console.log(k + ":");
+				//console.log("Desc: " + obj.item_desc);
+				//console.log("Current Price: $" + obj.price_info.price);
+				//console.log("Total bids: " + obj.price_info.bids);
+				//console.log("Auction ends " + obj.date_info.end_date + " at " + obj.date_info.end_time);
+				//console.log();
+			}
+			//temp off
+			//$.each(response.row_1, function(item) {
+			//$.each(response.row_1
+				//following is original line
+				//informationArray.push(item);
+				//console.log(item.);
+			//});
+			
+			/* TEST BLOCK */
+			//following is for testing
+			//var r = response.row_1;
+			//console.log("Desc: " + r.item_desc);
+			//console.log("Current Price: $" + r.price_info.price);
+			//console.log("Total bids: " + r.price_info.bids);
+			//console.log("Auction ends " + r.date_info.end_date + " at " + r.date_info.end_time);
+			/* END OF TEST BLOCK */
+			
+			//var r = response.append;
+			//console.log obj;
+			
+			//console.log("Desc: " + r.item_desc);
+			//console.log("Current Price: $" + r.price_info.price);
+			//console.log("Total bids: " + r.price_info.bids);
+			//console.log("Auction ends " + r.date_info.end_date + " at " + r.date_info.end_time);
+			
+			//temp off
+			//informationArray.push("success");
+		}
+	});
+</script>
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
